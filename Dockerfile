@@ -1,18 +1,15 @@
-# Use the official Python image as a base image
-FROM python:3.9-slim
+# Use Python base image
+FROM python:3.11-slim
 
-# Set the working directory
+# Set work directory
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application files
-COPY . .
+# Copy app
+COPY app.py .
 
-# Expose the port that the app uses
-EXPOSE 8080
-
-# Command to run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]
+# Run with Gunicorn (prod server)
+CMD exec gunicorn --bind :8080 --workers 2 --threads 8 --timeout 0 app:app
