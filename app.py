@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/reply_whatsapp", methods=['POST'])
 def reply_whatsapp():
     resp = MessagingResponse()
-    resp.message("Probando desde Colab")
+    resp.message("Probando desde GCP Cloud Run")
     return Response(str(resp), mimetype='text/xml')
 
 if __name__ == "__main__":
