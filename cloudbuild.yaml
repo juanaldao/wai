@@ -12,7 +12,7 @@ steps:
     args: ['run', 'deploy', 'whatsapp-gpt-integration',
            '--image', 'gcr.io/$PROJECT_ID/whatsapp-gpt-integration',
            '--platform', 'managed',
-           '--region', 'us-central1',
+           '--region', 'southamerica-west1',
            '--allow-unauthenticated']
 
 images:
