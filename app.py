@@ -1,28 +1,27 @@
 from flask import Flask, request, Response
 from twilio.twiml.messaging_response import MessagingResponse
 import os
-import openai
+from openai import OpenAI
 
 app = Flask(__name__)
 
-# Set your OpenAI API key as an environment variable or directly
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def ask_gpt4(question: str) -> str:
     """
     Ask a question to GPT-4 and return the response text.
     """
     try:
-        # Updated method for OpenAI Python SDK >=1.0.0
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # use "gpt-4o-mini" (faster/cheaper) or "gpt-4"
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": question}
             ],
             temperature=0.7
         )
-        return response['choices'][0]['message']['content'].strip()
+        return response.choices[0].message.content.strip()
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
